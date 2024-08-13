@@ -42,15 +42,6 @@ class Category(models.Model):
         return f"{self.title}"
 
 
-class Contact(models.Model):
-    name= models.CharField(max_length=30)
-    email = models.EmailField(blank= True, null=True)
-    description = models.TextField()
-    number = models.CharField(max_length=11)
-
-    def __str__(self):
-        return f"{self.name}"
-
 class Product(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -66,4 +57,15 @@ class Product(models.Model):
         return f"{self.title}"
    
 
+class Contact(models.Model):
+    firstName = models.CharField(max_length=150)
+    lastName = models.CharField(max_length=150)
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=12)
+    description = models.TextField()
 
+    def __str__(self):
+        return f"{self.email}"
+
+
+    

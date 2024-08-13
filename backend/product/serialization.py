@@ -6,24 +6,30 @@ User = get_user_model()
 class RegisterSerializations(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields= ("id","email", "username", "password")
+        fields = ('id', 'email', 'password', 'username')
         extra_kwargs = {'password': {'write_only': True}}
 
-        def create(self, validation_data):
-            user = User.objects.create_user(
-                email= validation_data['email'],
-                username= validation_data['username'],
-                password= validation_data['password'],
-            )
-            return user
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            username=validated_data.get('username'),
+            password=validated_data['password']
+        )
+        return user
         
 
 class CategorySerializations(serializers.ModelSerializer):
     class Meta:
-        models=Category
+        model=Category
         fields= "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'description', 'Brand', 'img', 'price', 'is_slider', 'is_featured']
+        fields = "__all__"
+        # depth = 1
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = "__all__"

@@ -22,7 +22,14 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+# from rest_framework_swagger.views import get_swagger_view
+# from django.conf.urls import url
+
+
+# schema_view = get_swagger_view(title='Ecom API')
+
 urlpatterns = [
+    # url(r'^$', schema_view),
     path('admin/', admin.site.urls),
     path("", include("product.urls")),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
