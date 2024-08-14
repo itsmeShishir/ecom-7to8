@@ -16,18 +16,25 @@ class RegisterSerializations(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-        
-
-class CategorySerializations(serializers.ModelSerializer):
-    class Meta:
-        model=Category
-        fields= "__all__"
+# products = ProductSerializer(many=True, read_only=True
+# lookup_field = 'id'
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
         # depth = 1
+
+class CategorySerializations(serializers.ModelSerializer):
+    product = serializers.SerializerMethodField()
+    class Meta:
+        model=Category
+        fields= ['id', 'title', 'description', 'img', 'product']
+
+    def get_product(self, obj):
+        product = Product.objects.filter(category=obj)
+        return ProductSerializer(product, many=True).data
+    
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:

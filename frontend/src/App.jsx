@@ -9,6 +9,7 @@ import Register from "./pages/userside/regiser"
 import ErrorPage from "./pages/userside/error"
 import Single from "./pages/userside/Single"
 import MainPage from "./pages/mainPage";
+import AssociatedProduct from "./pages/userside/AssociatedProduct"
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="single/:id" element={<Single />} />
+        <Route path="category/:id" element={<AssociatedProduct />} />
         <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>

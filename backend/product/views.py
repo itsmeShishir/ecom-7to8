@@ -65,4 +65,10 @@ class category(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializations
 
+class ProductCategory(generics.RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializations
+    lookup_field = 'id'
+
+
     

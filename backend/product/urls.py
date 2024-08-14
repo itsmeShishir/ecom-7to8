@@ -13,6 +13,7 @@ urlpatterns = [
     path("contact/<int:pk>/", all_contact.as_view(), name="contact"),
     path("category/", categorys.as_view(), name="category"),
     path("category/<int:pk>", category.as_view(), name= "category"),
+    path("category/product/<int:id>", ProductCategory.as_view(), name= "ProductCategory"),
 ]
 # category associated with product,
 # Form Handling,
