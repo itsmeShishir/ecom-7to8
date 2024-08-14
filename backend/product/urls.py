@@ -14,3 +14,11 @@ urlpatterns = [
     path("category/", categorys.as_view(), name="category"),
     path("category/<int:pk>", category.as_view(), name= "category"),
 ]
+# category associated with product,
+# Form Handling,
+# error handling
+# contact, 
+# login, register, 
+# admin dashboard 
+
+
