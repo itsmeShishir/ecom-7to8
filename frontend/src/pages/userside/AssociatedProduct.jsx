@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const AssociatedProduct = () => {
 const {id} = useParams();
- const [data, SetData] = useState({});
+const [data, SetData] = useState(null);
     useEffect(()=>{
         const fetchdata = async()=>{
             try{
@@ -19,10 +19,13 @@ const {id} = useParams();
     },[id])
   return (
     <>
-    <h1 className="container mx-auto text-red-500 text-3xl py-4 my-4">{data.title}</h1>
-    <div className="container mx-auto grid gap-7 md:grid-cols-4">
-      {
-            data.map(items =>(
+    {
+        data && (
+            <>
+                <h1 className="container mx-auto text-red-500 text-3xl py-4 my-4">{data.title}</h1>
+                <div className="container mx-auto grid gap-7 md:grid-cols-4">
+                      {
+            data.product.map((items) =>(
        <div key={items.id} className="relative flex flex-col text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
         <Link to={`/single/${items.id}`}>
         <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white bg-clip-border rounded-xl h-96">
@@ -54,7 +57,10 @@ const {id} = useParams();
 </div>
  ))
         }
-    </div>
+                </div>
+        </>
+        )
+    }
     </>
   )
 }

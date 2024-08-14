@@ -15,11 +15,11 @@ urlpatterns = [
     path("category/<int:pk>", category.as_view(), name= "category"),
     path("category/product/<int:id>", ProductCategory.as_view(), name= "ProductCategory"),
 ]
-# category associated with product,
 # Form Handling,
 # error handling
 # contact, 
 # login, register, 
 # admin dashboard 
+# pip install -r requirements.txt
 
 
