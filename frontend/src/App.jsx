@@ -10,6 +10,9 @@ import ErrorPage from "./pages/userside/error"
 import Single from "./pages/userside/Single"
 import MainPage from "./pages/mainPage";
 import AssociatedProduct from "./pages/userside/AssociatedProduct"
+import Dashboard from "./pages/adminsite/dashboard"
+import ContactAdmin from "./pages/adminsite/contact/contactAdmin"
+import EditContact from "./pages/adminsite/contact/EditContact"
 
 function App() {
 
@@ -27,6 +30,10 @@ function App() {
         <Route path="single/:id" element={<Single />} />
         <Route path="category/:id" element={<AssociatedProduct />} />
         <Route path="*" element={<ErrorPage />} />
+        </Route>
+          <Route path="/admin" element={<Dashboard />} >
+          <Route index element={<ContactAdmin />} />
+          <Route path="editContact/:id" element={<EditContact />}></Route>
         </Route>
       </Routes>
     </>
