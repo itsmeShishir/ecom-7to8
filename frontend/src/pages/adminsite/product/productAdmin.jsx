@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const ContactAdmin = () => {
+const ProductAdmin = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        let res = await fetch("http://127.0.0.1:8000/contact/");
+        let res = await fetch("http://127.0.0.1:8000/product/");
         let datas = await res.json();
         setData(datas);
       } catch (e) {
@@ -19,7 +19,7 @@ const ContactAdmin = () => {
 
   const deleteContact = async (id) => {
     try {
-      await fetch(`http://127.0.0.1:8000/contact/${id}/`, {
+      await fetch(`http://127.0.0.1:8000/updateDelete/${id}`, {
         method: "DELETE",
       });
       setData(data.filter((item) => item.id !== id));
@@ -31,21 +31,24 @@ const ContactAdmin = () => {
 
   return (
     <>
-      <div className="font-sans overflow-x-auto">
+      <div className="font-sans overflow-x-auto w-full">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-100 whitespace-nowrap">
             <tr>
               <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Name
+                Title
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Email
+                description
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Phone Number
+                Brand              
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Description
+                img
+              </th>
+              <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                price
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Actions
@@ -57,19 +60,22 @@ const ContactAdmin = () => {
             {data.map((item) => (
               <tr key={item.id}>
                 <td className="px-4 py-4 text-sm text-gray-800">
-                  {item.firstName} {item.lastName}
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-800">
-                  {item.email}
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-800">
-                  {item.phone}
+                  {item.title} 
                 </td>
                 <td className="px-4 py-4 text-sm text-gray-800">
                   {item.description}
                 </td>
                 <td className="px-4 py-4 text-sm text-gray-800">
-                  <Link to={`/admin/editContact/${item.id}`} className="text-blue-600 mr-4">Edit</Link>
+                  {item.Brand}
+                </td>
+                <td className="px-4 py-4 text-sm text-gray-800">
+                  <img src= {item.img} alt="" width={100} height={100}/>
+                </td>
+                <td className="px-4 py-4 text-sm text-gray-800">
+                  {item.price}
+                </td>
+                <td className="px-4 py-4 text-sm text-gray-800">
+                  <Link to={`editContact/${item.id}`} className="text-blue-600 mr-4">Edit</Link>
                   <button
                     className="text-red-600"
                     onClick={() => deleteContact(item.id)}
@@ -86,4 +92,4 @@ const ContactAdmin = () => {
   );
 };
 
-export default ContactAdmin;
+export default ProductAdmin;

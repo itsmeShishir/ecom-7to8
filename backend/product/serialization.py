@@ -25,6 +25,12 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # depth = 1
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
+        # depth = 1
+
 class CategorySerializations(serializers.ModelSerializer):
     product = serializers.SerializerMethodField()
     class Meta:

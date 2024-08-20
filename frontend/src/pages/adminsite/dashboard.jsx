@@ -5,10 +5,11 @@ const Dashboard = () => {
   return (
     <div>
       <div>
-        <SideBar />
-        <div>
-          <h1> Admin Dashboard</h1>
-      <Outlet />
+          <div>
+              <SideBar />
+          </div>        
+          <div className="bg-white fixed left-[250px] py-6 px-4 font-[sans-serif]">
+          <Outlet />
         </div>
       </div>
         

@@ -13,6 +13,10 @@ import AssociatedProduct from "./pages/userside/AssociatedProduct"
 import Dashboard from "./pages/adminsite/dashboard"
 import ContactAdmin from "./pages/adminsite/contact/contactAdmin"
 import EditContact from "./pages/adminsite/contact/EditContact"
+import MainBody from "./pages/adminsite/mainBody/MainBody"
+import ProductAdmin from "./pages/adminsite/product/productAdmin"
+import CategoryAdmin from "./pages/adminsite/category/categoryAdmin"
+import AddCategory from "./pages/adminsite/category/addCategory"
 
 function App() {
 
@@ -32,7 +36,11 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
         </Route>
           <Route path="/admin" element={<Dashboard />} >
-          <Route index element={<ContactAdmin />} />
+          <Route index element={<MainBody />} />
+          <Route path="allCategory" element={<CategoryAdmin />}/>
+          <Route path="addCategory" element={<AddCategory />}/>
+          <Route path="allProduct" element={<ProductAdmin />}/>
+          <Route path="allContact" element={<ContactAdmin />} />
           <Route path="editContact/:id" element={<EditContact />}></Route>
         </Route>
       </Routes>

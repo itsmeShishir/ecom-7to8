@@ -12,6 +12,7 @@ urlpatterns = [
     path("contact/", all_contacts.as_view(), name="contact"),
     path("contact/<int:pk>/", all_contact.as_view(), name="contact"),
     path("category/", categorys.as_view(), name="category"),
+    path("addCategory/", categoryAdd.as_view(), name="addCategory"),
     path("category/<int:pk>", category.as_view(), name= "category"),
     path("category/product/<int:id>", ProductCategory.as_view(), name= "ProductCategory"),
 ]

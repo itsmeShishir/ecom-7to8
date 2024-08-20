@@ -60,6 +60,11 @@ class categorys(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializations
 
+
+class categoryAdd(generics.CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
 #Retrive, Update , Delete
 class category(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
