@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from core import settings
+
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -69,3 +72,63 @@ class Contact(models.Model):
 
 
     
+#cart, cartItem, Order, OrderItems
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank = True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now= True)
+
+    def __set__(self):
+        return f"CArt {self.id} for {self.user}"
+    
+    @property
+    def total_price(self):
+        total = sum([item.total_price for item in self.items.all()])
+        return total
+    
+    @property
+    def item_count(self):
+        return self.items.count()
+    
+#
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveBigIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} * {self.product.title} in Cart {self.cart.id}"
+    
+    @property
+    def total_price(self):
+        return self.quantity * self.product.price
+    
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cart = models.OneToOneField(Cart, on_delete=models.SET_NULL, null=True,)
+    ordered_at = models.DateTimeField(auto_now_add=True)
+    id_paid = models.BooleanField(default=False)
+    payment_date= models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user}"
+    
+    @property
+    def total_price(self):
+        return self.cart.total_price if self.cart else 0
+    
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name="order_items", on_delete=models.CASCADE)
+    product= models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity= models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantity} * {self.product.title} in Cart {self.order.id}"
+    
+    @property
+    def order_price(self):
+        return self.quantity * self.price
+    
+
+
