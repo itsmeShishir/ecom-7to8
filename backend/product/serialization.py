@@ -16,6 +16,7 @@ class RegisterSerializations(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
 # products = ProductSerializer(many=True, read_only=True
 # lookup_field = 'id'
 
@@ -33,6 +34,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CategorySerializations(serializers.ModelSerializer):
     product = serializers.SerializerMethodField()
+
     class Meta:
         model=Category
         fields= ['id', 'title', 'description', 'img', 'product']
@@ -46,3 +48,38 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = "__all__"
+
+#CartItemSerializer
+#CartSerializer
+#OrderItemSerializer
+#OrderSerializer
+class CartItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'product', 'quantity', 'total_price']
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many= True, read_only = True)
+    total_price = serializers.ReadOnlyField()
+    item_count = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'user', 'items', 'total_price','item_count', "created_at", 'updated_at' ]
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.StringRelatedField()
+
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'quantity', 'price', 'total_price']
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_items = OrderItemSerializer(many= True, read_only= True)
+    total_price = serializers.ReadOnlyField()
+
+    class Meta:
+        model= Order
+        fields = ['id', 'user', 'order_items', 'total_price', 'is_paid', 'ordered_at', 'payment_date']

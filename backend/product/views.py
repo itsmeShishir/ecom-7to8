@@ -75,5 +75,75 @@ class ProductCategory(generics.RetrieveAPIView):
     serializer_class = CategorySerializations
     lookup_field = 'id'
 
+#cart and other
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        cart = Cart.objects.get(user=self.request.user)
+        return CartItem.objects.filter(cart=cart)
+
+    def perform_create(self, serializer):
+        cart = Cart.objects.get(user=self.request.user)
+        serializer.save(cart=cart)
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        cart = Cart.objects.get(user=self.request.user)
+        serializer.save(user=self.request.user, cart=cart)
+
+class OrderItemViewSet(viewsets.ModelViewSet):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        order = Order.objects.get(user=self.request.user)
+        return OrderItem.objects.filter(order=order)
+
+class CreateOrderView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        try:
+            cart = Cart.objects.get(user=request.user)
+            order = Order.objects.create(user=request.user, cart=cart)
+            cart_items = cart.items.all()
+
+            for item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    price=item.product.price
+                )
+            
+            cart.items.all().delete()
+
+            serializer = OrderSerializer(order)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Cart.DoesNotExist:
+            return Response({"error": "No active cart found"}, status=status.HTTP_400_BAD_REQUEST)
+
 
     
