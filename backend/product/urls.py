@@ -15,12 +15,10 @@ urlpatterns = [
     path("addCategory/", categoryAdd.as_view(), name="addCategory"),
     path("category/<int:pk>", category.as_view(), name= "category"),
     path("category/product/<int:id>", ProductCategory.as_view(), name= "ProductCategory"),
+
+    #CartViewSet,  CartItemViewSet, OrderViewSet, OrderItemViewSet, CreateOrderView
+    path("cart/<int:pk>",CartViewSet.as_view({'get': 'list'}), name="cart/" )
 ]
-# Form Handling,
-# error handling
-# contact, 
-# login, register, 
-# admin dashboard 
-# pip install -r requirements.txt
+
 
 
