@@ -70,7 +70,7 @@ const SideBar = () => {
             </Link>
           </li>
           <li>
-            <a href="javascript:void(0)"
+            <Link to="addProduct" href="javascript:void(0)"
               className="text-black hover:text-blue-600 text-sm flex items-center hover:bg-blue-50 rounded px-4 py-3 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="w-[18px] h-[18px] mr-4"
                 viewBox="0 0 24 24">
@@ -81,7 +81,7 @@ const SideBar = () => {
                 <path d="M6 12a1 1 0 0 1 1-1h10a1 1 0 0 1 0 2H7a1 1 0 0 1-1-1z" data-original="#000000" />
               </svg>
               <span>Add Product</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

@@ -17,6 +17,7 @@ import MainBody from "./pages/adminsite/mainBody/MainBody"
 import ProductAdmin from "./pages/adminsite/product/productAdmin"
 import CategoryAdmin from "./pages/adminsite/category/categoryAdmin"
 import AddCategory from "./pages/adminsite/category/addCategory"
+import AddProduct from "./pages/adminsite/product/addProduct"
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="allCategory" element={<CategoryAdmin />}/>
           <Route path="addCategory" element={<AddCategory />}/>
           <Route path="allProduct" element={<ProductAdmin />}/>
+          <Route path="addProduct" element={<AddProduct />}/>
           <Route path="allContact" element={<ContactAdmin />} />
           <Route path="editContact/:id" element={<EditContact />}></Route>
         </Route>

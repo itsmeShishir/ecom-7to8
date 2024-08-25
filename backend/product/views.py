@@ -1,21 +1,21 @@
-from urllib import response
-from django.shortcuts import render
-from .serialization import *
+from django.shortcuts import get_object_or_404
+from .models import *
 from rest_framework import generics, viewsets, permissions, status
 from rest_framework.views import APIView
-from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
+from django.contrib.auth import authenticate, get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serialization import *
 
 User = get_user_model()
 
-# Create your views here.
-class Register_view(generics.CreateAPIView):
+# User Registration View
+class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializations
 
-class Login_view(APIView):
+# User Login View
+class LoginView(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -29,53 +29,51 @@ class Login_view(APIView):
             })
         return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
-class product_view(viewsets.ModelViewSet):
+# Product Views
+class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class allProduct(generics.ListAPIView):
+class AllProductView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class create_product(generics.CreateAPIView):
+class CreateProductView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class updateDelete_product(generics.RetrieveUpdateDestroyAPIView):
+class UpdateDeleteProductView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
-#contact
-class all_contacts(generics.ListCreateAPIView):
+
+# Contact Views
+class AllContactsView(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-class all_contact(generics.RetrieveUpdateDestroyAPIView):
+class SingleContactView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-#Category
-#GET, POST
-class categorys(generics.ListCreateAPIView):
+# Category Views
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializations
 
-
-class categoryAdd(generics.CreateAPIView):
+class CreateCategoryView(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-#Retrive, Update , Delete
-class category(generics.RetrieveUpdateDestroyAPIView):
+class SingleCategoryView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializations
 
-class ProductCategory(generics.RetrieveAPIView):
+class ProductCategoryView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializations
     lookup_field = 'id'
 
-#cart and other
+# Cart Views
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
@@ -100,6 +98,7 @@ class CartItemViewSet(viewsets.ModelViewSet):
         cart = Cart.objects.get(user=self.request.user)
         serializer.save(cart=cart)
 
+# Order Views
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -121,6 +120,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
         order = Order.objects.get(user=self.request.user)
         return OrderItem.objects.filter(order=order)
 
+# Create Order View
 class CreateOrderView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -144,6 +144,3 @@ class CreateOrderView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Cart.DoesNotExist:
             return Response({"error": "No active cart found"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-    
